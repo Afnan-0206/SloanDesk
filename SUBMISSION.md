@@ -29,8 +29,8 @@ As developers, we waste tremendous mental energy on daily logistical chores:
 
 ## Demo
 
-* **Live Demo:** [https://sloandesk.onrender.com](https://sloandesk.onrender.com)
-* **GitHub Repository:** [https://github.com/your-username/sloandesk](https://github.com/your-username/sloandesk)
+* **Live Demo:** [https://sloandesk.pages.dev](https://sloandesk.pages.dev) (or [https://sloandesk.onrender.com](https://sloandesk.onrender.com))
+* **GitHub Repository:** [https://github.com/Afnan-0206/SloanDesk](https://github.com/Afnan-0206/SloanDesk)
 * **Offline-Ready:** Disconnect your Wi-Fi, open SloanDesk, and watch every single feature execute instantly.
 
 ![SloanDesk Hero](assets/sloan_mascot.jpg)
@@ -41,7 +41,7 @@ As developers, we waste tremendous mental energy on daily logistical chores:
 
 The complete source code is open-source and available under the permissive MIT license:
 
-{% github https://github.com/your-username/sloandesk %}
+{% github https://github.com/Afnan-0206/SloanDesk %}
 
 * Stack: Vanilla HTML5, Vanilla CSS3 (Glassmorphism & CSS custom properties), Modern JavaScript (ES2024), Web Audio API, and Open-Source AI bridges.
 

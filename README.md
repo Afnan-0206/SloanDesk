@@ -101,13 +101,33 @@ SloanDesk will automatically discover and connect to your local Ollama daemon at
 
 ---
 
+## ⚡ Deploy to Cloudflare Pages (Instant Edge Hosting)
+
+SloanDesk is 100% pre-configured for Cloudflare Pages with `_headers`, `_redirects`, and `wrangler.toml`:
+
+### Via Cloudflare Dashboard (Continuous Deployment):
+1. Go to the [Cloudflare Dashboard](https://dash.cloudflare.com/) ➔ **Workers & Pages** ➔ **Create application** ➔ **Pages** ➔ **Connect to Git**.
+2. Select repository: `https://github.com/Afnan-0206/SloanDesk`.
+3. Set build configuration:
+   - **Framework preset:** `None`
+   - **Build command:** (leave empty)
+   - **Build output directory:** `.`
+4. Click **Save and Deploy**. Your site will be live at `https://sloandesk.pages.dev` with global Cloudflare edge caching!
+
+### Via Wrangler CLI:
+```bash
+npm run deploy:cf
+```
+
+---
+
 ## ☁️ Deploy to Render
 
-SloanDesk includes a turnkey `render.yaml` specification for free static hosting on Render:
+SloanDesk also includes a turnkey `render.yaml` specification for Render:
 
-1. Fork or push this repository to GitHub.
+1. Push your repository to GitHub: `https://github.com/Afnan-0206/SloanDesk`.
 2. Go to [Render Dashboard](https://dashboard.render.com/) -> **Blueprints**.
-3. Connect your repository. Render will automatically detect `render.yaml` and deploy in seconds!
+3. Connect your repository. Render will automatically detect `render.yaml` and deploy!
 
 ---
 

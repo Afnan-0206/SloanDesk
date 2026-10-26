@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "npx -y serve . -p 3000",
     "start": "npx -y serve . -p 3000",
+    "deploy:cf": "npx -y wrangler pages deploy . --project-name=sloandesk",
     "test": "echo \"Sloan is relaxing. All tests pass with 100% sloth serenity.\" && exit 0"
   },
   "keywords": [
