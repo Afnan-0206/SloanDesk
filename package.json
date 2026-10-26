@@ -1,0 +1,24 @@
+{
+  "name": "sloandesk",
+  "version": "1.0.0",
+  "description": "The Offline Open-Source AI Lazy Suite for Developers — Built for Hacktoberfest 2026",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve . -p 3000",
+    "start": "npx -y serve . -p 3000",
+    "test": "echo \"Sloan is relaxing. All tests pass with 100% sloth serenity.\" && exit 0"
+  },
+  "keywords": [
+    "hacktoberfest",
+    "open-source-ai",
+    "devchallenge",
+    "hf26challenge",
+    "offline-ai",
+    "sloth-day",
+    "transformers-js",
+    "ollama",
+    "web-audio-api"
+  ],
+  "author": "SloanDesk Team",
+  "license": "MIT"
+}

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SloanDesk — The Offline Open-Source AI Lazy Suite for Developers</title>
+  <meta name="description" content="Never do today what open-source AI can do while you nap. 100% offline, local open-weight AI suite celebrating International Sloth Day for Hacktoberfest 2026.">
+  <meta name="keywords" content="Hacktoberfest, Open Source AI, DevChallenge, Local AI, Sloth Day, Transformers.js, Ollama, Offline AI, WebGPU">
+  <meta name="author" content="SloanDesk Team">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SloanDesk — The Offline Open-Source AI Lazy Suite for Developers">
+  <meta property="og:description" content="Channel your inner sloth. Automate unread chat digests, standups, decliner emails, clutter triage, and ambient zen entirely on your local machine with open-source AI.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/sloan_mascot.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦥</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow glow-3" aria-hidden="true"></div>
+
+  <!-- Top Announcement Bar -->
+  <header class="top-announcement" id="top-announcement">
+    <div class="announcement-content">
+      <span class="badge-hf">Hacktoberfest 2026</span>
+      <span class="announcement-text">
+        <strong>Week 3 & 4 Special:</strong> Built for the <em>Slow & Steady</em> Open-Source AI Challenge. Honoring International Sloth Day 🦥
+      </span>
+      <span class="announcement-badge-offline">
+        <span class="status-dot-pulse"></span>
+        100% Air-Gapped Local Inference
+      </span>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="brand-avatar-wrap">
+          <img src="assets/sloan_mascot.jpg" alt="Sloan Cyber Sloth" class="brand-avatar" id="brand-avatar-img">
+          <span class="brand-avatar-badge" title="AI Asleep & Saving Energy">💤</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <span class="brand-name">SloanDesk</span>
+            <span class="brand-version">v1.0 • Open AI</span>
+          </div>
+          <span class="brand-tagline">The Executive Sloth AI Suite</span>
+        </div>
+      </div>
+
+      <!-- Engine Selector & Status Pills -->
+      <div class="nav-engine-pills">
+        <div class="engine-selector-box" id="engine-selector-box">
+          <label for="ai-engine-select" class="engine-label">
+            <span class="engine-icon" id="engine-status-icon">⚡</span>
+            <span>AI Core:</span>
+          </label>
+          <select id="ai-engine-select" class="engine-select" title="Choose local inference mode">
+            <option value="browser-transformer">Xenova / Transformers.js (In-Browser WebGPU/WASM)</option>
+            <option value="ollama-local">Ollama Local API (localhost:11434 - Llama 3 / Mistral)</option>
+            <option value="instant-sloth" selected>Instant Sloth Neural Engine (Zero-Latency Local)</option>
+          </select>
+        </div>
+
+        <div class="sloth-meter-pill" id="sloth-energy-pill" title="Current cognitive energy conserved">
+          <span class="meter-icon">🦥</span>
+          <div class="meter-info">
+            <span class="meter-label">Energy Saved</span>
+            <span class="meter-val" id="sloth-energy-percent">94%</span>
+          </div>
+          <div class="mini-progress-bar">
+            <div class="mini-progress-fill" id="sloth-energy-fill" style="width: 94%;"></div>
+          </div>
+        </div>
+
+        <button class="btn-zen-quick-toggle" id="btn-quick-zen" title="Toggle Sloth Ambient Zen Soundscape">
+          <span class="zen-icon" id="quick-zen-icon">🎵</span>
+          <span class="zen-label">Ambient Zen</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <main class="app-layout" id="app-layout">
+    <section class="hero-section" id="hero-section">
+      <div class="hero-card glass-panel">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <div class="hero-chips">
+              <span class="chip chip-sloth">🦥 Channel Your Inner Sloth</span>
+              <span class="chip chip-privacy">🛡️ Zero Cloud • Zero Telemetry</span>
+              <span class="chip chip-free">💸 $0.00 Running Cost</span>
+            </div>
+            <h1 class="hero-title">
+              Do Less. Achieve More. <br>
+              <span class="text-gradient">Let Open-Source AI Carry the Weight.</span>
+            </h1>
+            <p class="hero-subtitle">
+              Sloths move at their own rhythm, conserve calories, and never overcommit. 
+              <strong>SloanDesk</strong> is an offline-first AI cockpit that handles tedious morning chat floods, 
+              writes your daily standups, deflects unnecessary meetings, organizes folder clutter, and puts you into deep focus.
+            </p>
+
+            <div class="hero-stats-row">
+              <div class="stat-item">
+                <span class="stat-number" id="stat-minutes-saved">48m</span>
+                <span class="stat-desc">Daily Effort Saved</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-desc">Air-Gapped Privacy</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">0 ms</span>
+                <span class="stat-desc">Cloud Roundtrips</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-desc">Lazy Automations</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="mascot-display-card">
+              <div class="mascot-image-wrapper">
+                <img src="assets/sloan_mascot.jpg" alt="Sloan relaxing in a cybernetic hammock" class="mascot-large-image" id="hero-mascot-img">
+                <div class="mascot-status-tag">
+                  <span class="pulse-indicator"></span>
+                  <span>Sloan is Conserving Energy</span>
+                </div>
+              </div>
+              <div class="sloth-quote-box">
+                <p class="sloth-quote" id="sloth-daily-wisdom">
+                  "Why write 4 paragraphs when a 2-bullet summary and a nap accomplishes the exact same outcome?"
+                </p>
+                <div class="sloth-quote-author">— Sloan the Sloth Executive</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs for the 5 Modules -->
+    <nav class="module-tabs-nav" id="module-tabs-nav" aria-label="Automation Modules">
+      <div class="tabs-scroller">
+        <button class="tab-btn active" id="tab-btn-digest" data-target="module-digest">
+          <span class="tab-icon">💬</span>
+          <span class="tab-text">Chat & Thread Condenser</span>
+          <span class="tab-tag">Morning Digest</span>
+        </button>
+
+        <button class="tab-btn" id="tab-btn-standup" data-target="module-standup">
+          <span class="tab-icon">🚀</span>
+          <span class="tab-text">Lazy Standup Generator</span>
+          <span class="tab-tag">Git to Agile</span>
+        </button>
+
+        <button class="tab-btn" id="tab-btn-decliner" data-target="module-decliner">
+          <span class="tab-icon">🛡️</span>
+          <span class="tab-text">Diplomatic Decliner</span>
+          <span class="tab-tag">Polite Deflector</span>
+        </button>
+
+        <button class="tab-btn" id="tab-btn-clutter" data-target="module-clutter">
+          <span class="tab-icon">🗂️</span>
+          <span class="tab-text">Folder Clutter Tamer</span>
+          <span class="tab-tag">Auto-Organizer</span>
+        </button>
+
+        <button class="tab-btn" id="tab-btn-sanctuary" data-target="module-sanctuary">
+          <span class="tab-icon">🌿</span>
+          <span class="tab-text">The Sloth Sanctuary</span>
+          <span class="tab-tag">Ambient Audio</span>
+        </button>
+
+        <button class="tab-btn" id="tab-btn-submission" data-target="module-submission">
+          <span class="tab-icon">📝</span>
+          <span class="tab-text">DEV Submission Post</span>
+          <span class="tab-tag">Ready-to-Submit</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 1: MORNING CHAT & THREAD CONDENSER -->
+    <!-- ========================================================================= -->
+    <section class="module-container active" id="module-digest">
+      <div class="module-card glass-panel">
+        <div class="module-header">
+          <div class="module-header-info">
+            <span class="module-badge">Module 1 • Lazy Reading</span>
+            <h2 class="module-title">The Morning Chaos Condenser</h2>
+            <p class="module-desc">
+              Don't waste 20 minutes wading through 99+ unread Discord, Slack, or email messages. Paste the flood here, and Sloan's local open-source AI will extract the 2-sentence truth, flag if anyone actually needs you, and draft painless canned responses.
+            </p>
+          </div>
+          <div class="module-header-actions">
+            <button class="btn-secondary" id="btn-sample-chat">
+              <span>📋 Load Sample Chaos</span>
+            </button>
+            <button class="btn-secondary" id="btn-clear-chat">
+              <span>🧹 Clear</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="module-body-grid">
+          <!-- Input Area -->
+          <div class="input-pane">
+            <div class="pane-label-row">
+              <label for="chat-raw-input" class="pane-label">Raw Chat / Email Thread / Message Dump:</label>
+              <span class="token-estimate" id="chat-token-counter">0 chars</span>
+            </div>
+            <textarea id="chat-raw-input" class="textarea-code" placeholder="Paste unread Slack thread, Discord chatter, or team emails here...
+
+Example:
+[09:12] Dave: Hey team, did anyone check the staging deployment?
+[09:14] Alice: It broke because of the CORS header change.
+[09:20] Bob: @Alex (you) can you look at the logs and revert if needed?
+[09:30] Dave: Actually Sarah already pushed a hotfix at 9:28.
+[09:32] Sarah: Verified in staging, we're all good."></textarea>
+
+            <div class="action-controls-row">
+              <div class="select-group">
+                <label for="digest-tone-select">Sloth Filter Tone:</label>
+                <select id="digest-tone-select" class="form-select">
+                  <option value="brutally-brief" selected>Brutally Brief (2 Lines Max)</option>
+                  <option value="executive">Executive Summary (Action Items First)</option>
+                  <option value="passive-sloth">Zero-Effort Zen (Maximum Chill)</option>
+                </select>
+              </div>
+
+              <button class="btn-primary" id="btn-condense-chat">
+                <span class="btn-icon">⚡</span>
+                <span>Condense with Local AI</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Output Area -->
+          <div class="output-pane">
+            <div class="pane-label-row">
+              <span class="pane-label">Sloan's Lazy Bottom-Line:</span>
+              <span class="badge-status-local" id="chat-ai-status">Ready</span>
+            </div>
+
+            <div class="digest-output-card" id="digest-output-container">
+              <div class="empty-state" id="digest-empty-state">
+                <span class="empty-emoji">💤</span>
+                <p>Paste messages on the left or click <strong>Load Sample Chaos</strong>, then hit Condense.</p>
+                <span class="empty-hint">Runs 100% locally on your machine with zero server calls.</span>
+              </div>
+
+              <div class="digest-results-content hidden" id="digest-results-content">
+                <!-- Urgency & Involvement Banner -->
+                <div class="involvement-banner banner-safe" id="digest-involvement-banner">
+                  <span class="banner-icon" id="digest-involvement-icon">🟢</span>
+                  <div class="banner-text">
+                    <strong id="digest-involvement-title">NO ACTION REQUIRED FROM YOU</strong>
+                    <span id="digest-involvement-desc">You are off the hook. Sarah resolved the issue already.</span>
+                  </div>
+                </div>
+
+                <!-- 2-Line Summary -->
+                <div class="result-block">
+                  <h3 class="result-subtitle">🦥 The 2-Line Reality</h3>
+                  <div class="summary-box" id="digest-2line-summary"></div>
+                </div>
+
+                <!-- Action Items (if any) -->
+                <div class="result-block">
+                  <h3 class="result-subtitle">🎯 Concrete Action Items</h3>
+                  <ul class="action-list" id="digest-action-list"></ul>
+                </div>
+
+                <!-- Ready Canned Replies -->
+                <div class="result-block">
+                  <h3 class="result-subtitle">💬 1-Click Diplomatic Sloth Replies</h3>
+                  <div class="canned-replies-grid" id="digest-canned-replies"></div>
+                </div>
+
+                <div class="result-footer">
+                  <button class="btn-copy" id="btn-copy-digest">
+                    <span>📋 Copy Summary</span>
+                  </button>
+                  <span class="save-tag">⚡ Conserved ~15 min of reading</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 2: LAZY STANDUP GENERATOR -->
+    <!-- ========================================================================= -->
+    <section class="module-container" id="module-standup">
+      <div class="module-card glass-panel">
+        <div class="module-header">
+          <div class="module-header-info">
+            <span class="module-badge">Module 2 • Agile Laziness</span>
+            <h2 class="module-title">The 10-Second Standup Generator</h2>
+            <p class="module-desc">
+              Nobody wants to recall what they did yesterday 5 minutes before standup. Dump raw <code>git log --oneline</code> commits, terminal history, or chaotic fragments, and Sloan will synthesize a polished Agile daily update.
+            </p>
+          </div>
+          <div class="module-header-actions">
+            <button class="btn-secondary" id="btn-sample-git">
+              <span>📋 Load Sample Git Log</span>
+            </button>
+            <button class="btn-secondary" id="btn-clear-git">
+              <span>🧹 Clear</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="module-body-grid">
+          <div class="input-pane">
+            <div class="pane-label-row">
+              <label for="standup-raw-input" class="pane-label">Raw Git Commits or Scratch Notes:</label>
+              <span class="token-estimate" id="standup-token-counter">0 lines</span>
+            </div>
+            <textarea id="standup-raw-input" class="textarea-code" placeholder="Paste your git log or scratch notes here...
+
+Example:
+feat(auth): add local refresh token rotation
+fix(css): adjust padding on mobile viewport
+test: add unit coverage for session storage
+wip: investigate postgres slow query on user table
+refactor: clean up deprecated helper functions"></textarea>
+
+            <div class="action-controls-row">
+              <div class="select-group">
+                <label for="standup-style-select">Standup Persona:</label>
+                <select id="standup-style-select" class="form-select">
+                  <option value="high-impact" selected>High Impact (Sounds Senior & Strategic)</option>
+                  <option value="standard">Standard Agile (Yesterday / Today / Blockers)</option>
+                  <option value="minimalist">Minimalist Sloth (Doing the bare minimum proudly)</option>
+                </select>
+              </div>
+
+              <button class="btn-primary" id="btn-generate-standup">
+                <span class="btn-icon">🚀</span>
+                <span>Generate Daily Standup</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="output-pane">
+            <div class="pane-label-row">
+              <span class="pane-label">Polished Daily Standup Update:</span>
+              <button class="btn-copy-small" id="btn-copy-standup">Copy Standup</button>
+            </div>
+
+            <div class="standup-output-card" id="standup-output-container">
+              <div class="empty-state" id="standup-empty-state">
+                <span class="empty-emoji">⌨️</span>
+                <p>Paste git log commits on the left or click <strong>Load Sample Git Log</strong>.</p>
+                <span class="empty-hint">Turns commit fragments into an impressive engineering report.</span>
+              </div>
+
+              <div class="standup-results-content hidden" id="standup-results-content">
+                <div class="standup-preview-card">
+                  <div class="standup-section">
+                    <div class="standup-section-header">
+                      <span class="section-icon">✅</span>
+                      <h4>Yesterday (What I Shipped)</h4>
+                    </div>
+                    <ul class="standup-list" id="standup-yesterday-list"></ul>
+                  </div>
+
+                  <div class="standup-section">
+                    <div class="standup-section-header">
+                      <span class="section-icon">🎯</span>
+                      <h4>Today (What I'm Tackling)</h4>
+                    </div>
+                    <ul class="standup-list" id="standup-today-list"></ul>
+                  </div>
+
+                  <div class="standup-section">
+                    <div class="standup-section-header">
+                      <span class="section-icon">🚧</span>
+                      <h4>Blockers & Energy Level</h4>
+                    </div>
+                    <p class="standup-blocker-text" id="standup-blocker-text"></p>
+                  </div>
+                </div>
+
+                <div class="slack-markdown-preview">
+                  <div class="slack-preview-header">Raw Slack/Teams Formatted Text</div>
+                  <pre class="slack-code-block" id="standup-raw-markdown"></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 3: THE DIPLOMATIC DECLINER -->
+    <!-- ========================================================================= -->
+    <section class="module-container" id="module-decliner">
+      <div class="module-card glass-panel">
+        <div class="module-header">
+          <div class="module-header-info">
+            <span class="module-badge">Module 3 • Boundary Defense</span>
+            <h2 class="module-title">The Diplomatic Decliner</h2>
+            <p class="module-desc">
+              Conserve your mental RAM. Sloths know when to say no. When someone tries to put an unnecessary 45-minute sync on your calendar or dumps extra scope right before a sprint deadline, generate 3 flawlessly diplomatic declinations.
+            </p>
+          </div>
+        </div>
+
+        <div class="decliner-grid">
+          <!-- Setup Controls -->
+          <div class="decliner-controls-card">
+            <h3 class="controls-title">What are we gracefully dodging?</h3>
+
+            <div class="control-field">
+              <label for="decliner-scenario-select" class="field-label">Scenario / Request Type:</label>
+              <select id="decliner-scenario-select" class="form-select">
+                <option value="pointless-meeting" selected>Meeting that should be an asynchronous message</option>
+                <option value="scope-creep">Scope creep / New unplanned feature request</option>
+                <option value="friday-fire">Friday afternoon "urgent" non-emergency</option>
+                <option value="unowned-chore">Volunteering to take on somebody else's unowned chore</option>
+                <option value="after-hours">After-hours ping disrupting your evening recharge</option>
+                <option value="custom">Custom scenario...</option>
+              </select>
+            </div>
+
+            <div class="control-field" id="custom-scenario-wrap" style="display: none;">
+              <label for="custom-scenario-input" class="field-label">Specific Request Context:</label>
+              <input type="text" id="custom-scenario-input" class="form-input" placeholder="e.g. Sales asks to demo our prototype tomorrow">
+            </div>
+
+            <div class="control-field">
+              <label for="decliner-sloth-level" class="field-label">Sloth Diplomacy Level:</label>
+              <select id="decliner-sloth-level" class="form-select">
+                <option value="corporate-gentle" selected>Corporate Gentle (100% Polite & Blameless)</option>
+                <option value="firm-async">Firmly Asynchronous ("Put it in an issue")</option>
+                <option value="radical-candor">Radical Candor Sloth ("I am conserving bandwidth")</option>
+              </select>
+            </div>
+
+            <div class="control-field">
+              <label for="decliner-urgency-alt" class="field-label">Alternative You Offer:</label>
+              <select id="decliner-urgency-alt" class="form-select">
+                <option value="async-doc" selected>Review a written document/Loom instead</option>
+                <option value="next-sprint">Re-visit in next sprint planning</option>
+                <option value="delegate">Tag someone who already owns this area</option>
+                <option value="no-alt">No alternative (Complete polite refusal)</option>
+              </select>
+            </div>
+
+            <button class="btn-primary btn-block" id="btn-generate-decliner">
+              <span class="btn-icon">🛡️</span>
+              <span>Generate Diplomatic Deflections</span>
+            </button>
+          </div>
+
+          <!-- Generated Options -->
+          <div class="decliner-results-card">
+            <div class="pane-label-row">
+              <span class="pane-label">Choose Your Deflection Flavor:</span>
+              <span class="save-tag">3 Variations Ready</span>
+            </div>
+
+            <div class="deflection-cards-stack" id="deflection-cards-stack">
+              <!-- Cards generated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 4: FOLDER CLUTTER TAMER -->
+    <!-- ========================================================================= -->
+    <section class="module-container" id="module-clutter">
+      <div class="module-card glass-panel">
+        <div class="module-header">
+          <div class="module-header-info">
+            <span class="module-badge">Module 4 • Environmental Order</span>
+            <h2 class="module-title">The Folder Clutter Tamer</h2>
+            <p class="module-desc">
+              Your Downloads and Desktop folders are full of <code>Screenshot (43).png</code>, <code>report_final_v2(1).pdf</code>, and <code>archive.zip</code>. Paste or simulate your messy directory list, and Sloan will classify, clean, and generate a 1-click execution script.
+            </p>
+          </div>
+          <div class="module-header-actions">
+            <button class="btn-secondary" id="btn-sample-clutter">
+              <span>📋 Load Sample Mess</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="module-body-grid">
+          <div class="input-pane">
+            <div class="pane-label-row">
+              <label for="clutter-raw-input" class="pane-label">Messy Files List (Paths or Basenames):</label>
+              <span class="token-estimate" id="clutter-count">0 files</span>
+            </div>
+            <textarea id="clutter-raw-input" class="textarea-code" placeholder="Paste dirty file list from Downloads or Desktop...
+
+Example:
+Screenshot 2026-10-18 at 10.45.12 AM.png
+invoice_october_render_paid.pdf
+test_docker_compose_v2.yaml
+data_export_users_dump_backup.sql
+IMG_9824_receipt_dinner.jpg
+presentation_deck_final_v3_revised.pptx
+node_modules_tarball.tar.gz"></textarea>
+
+            <div class="action-controls-row">
+              <div class="select-group">
+                <label for="clutter-strategy-select">Organization Strategy:</label>
+                <select id="clutter-strategy-select" class="form-select">
+                  <option value="by-category" selected>Categorical (/receipts, /dev, /media, /docs)</option>
+                  <option value="by-date">Chronological (/2026/October, /2026/Archive)</option>
+                  <option value="sloth-clean">Sloth Quarantine (/Keep, /Review_Later, /Trash)</option>
+                </select>
+              </div>
+
+              <button class="btn-primary" id="btn-tame-clutter">
+                <span class="btn-icon">🗂️</span>
+                <span>Triage & Rename Files</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="output-pane">
+            <div class="pane-label-row">
+              <span class="pane-label">Intelligent Triage Plan:</span>
+              <button class="btn-copy-small" id="btn-copy-script">Copy Automation Script</button>
+            </div>
+
+            <div class="clutter-output-card" id="clutter-output-container">
+              <div class="empty-state" id="clutter-empty-state">
+                <span class="empty-emoji">📂</span>
+                <p>Paste messy files or click <strong>Load Sample Mess</strong> to see the triage plan.</p>
+                <span class="empty-hint">Generates standard snake_case naming and clean destination directories.</span>
+              </div>
+
+              <div class="clutter-results-content hidden" id="clutter-results-content">
+                <div class="triage-table-wrapper">
+                  <table class="triage-table">
+                    <thead>
+                      <tr>
+                        <th>Original Mess</th>
+                        <th>Clean Renamed Target</th>
+                        <th>Assigned Directory</th>
+                      </tr>
+                    </thead>
+                    <tbody id="triage-table-body"></tbody>
+                  </table>
+                </div>
+
+                <div class="script-box-container">
+                  <div class="script-box-header">
+                    <span>Automated Execution Script (PowerShell / Bash)</span>
+                    <span class="badge-tag">Zero Manual Moving</span>
+                  </div>
+                  <pre class="script-code-block" id="clutter-script-output"></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 5: THE SLOTH SANCTUARY (WEB AUDIO AMBIENT SOUNDSCAPE) -->
+    <!-- ========================================================================= -->
+    <section class="module-container" id="module-sanctuary">
+      <div class="module-card glass-panel">
+        <div class="module-header">
+          <div class="module-header-info">
+            <span class="module-badge">Module 5 • Offline Wind-Down</span>
+            <h2 class="module-title">The Sloth Sanctuary</h2>
+            <p class="module-desc">
+              Synthesized 100% in real-time through the browser's Web Audio API. Zero external audio downloads. Sloths know that recovery is work. Mix binaural focus waves, rain, brown noise, and forest winds to soothe developer stress.
+            </p>
+          </div>
+          <div class="module-header-actions">
+            <button class="btn-primary" id="btn-master-sound-toggle">
+              <span id="master-sound-icon">▶</span>
+              <span id="master-sound-label">Start Ambient Soundscape</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sanctuary-grid">
+          <!-- Audio Mixer Deck -->
+          <div class="sound-mixer-card">
+            <div class="mixer-header">
+              <h3>Real-Time Synthesizer Mixer</h3>
+              <div class="master-volume-wrap">
+                <label for="slider-master-volume">Master Vol:</label>
+                <input type="range" id="slider-master-volume" min="0" max="100" value="70" class="styled-range">
+                <span id="label-master-vol">70%</span>
+              </div>
+            </div>
+
+            <!-- Canvas Visualizer -->
+            <div class="visualizer-container">
+              <canvas id="audio-visualizer-canvas" width="600" height="120"></canvas>
+              <div class="visualizer-status" id="visualizer-status-text">Audio Synthesizer Idle (Click Start)</div>
+            </div>
+
+            <!-- Sound Sliders Grid -->
+            <div class="sound-tracks-grid">
+              <div class="sound-track-box">
+                <div class="track-header">
+                  <span class="track-icon">🌧️</span>
+                  <div class="track-meta">
+                    <span class="track-title">Rainforest Shower</span>
+                    <span class="track-type">Pink Noise Filter</span>
+                  </div>
+                  <input type="checkbox" id="check-rain" checked class="track-toggle">
+                </div>
+                <input type="range" id="slider-rain" min="0" max="100" value="65" class="styled-range">
+              </div>
+
+              <div class="sound-track-box">
+                <div class="track-header">
+                  <span class="track-icon">🍃</span>
+                  <div class="track-meta">
+                    <span class="track-title">Canopy Breeze</span>
+                    <span class="track-type">Brownian Resonance</span>
+                  </div>
+                  <input type="checkbox" id="check-wind" checked class="track-toggle">
+                </div>
+                <input type="range" id="slider-wind" min="0" max="100" value="50" class="styled-range">
+              </div>
+
+              <div class="sound-track-box">
+                <div class="track-header">
+                  <span class="track-icon">🧠</span>
+                  <div class="track-meta">
+                    <span class="track-title">432Hz Alpha Waves</span>
+                    <span class="track-type">Binaural Beat Sync</span>
+                  </div>
+                  <input type="checkbox" id="check-binaural" checked class="track-toggle">
+                </div>
+                <input type="range" id="slider-binaural" min="0" max="100" value="40" class="styled-range">
+              </div>
+
+              <div class="sound-track-box">
+                <div class="track-header">
+                  <span class="track-icon">☕</span>
+                  <div class="track-meta">
+                    <span class="track-title">Lofi Cozy Hum</span>
+                    <span class="track-type">Warm Sub-Sine Drone</span>
+                  </div>
+                  <input type="checkbox" id="check-drone" checked class="track-toggle">
+                </div>
+                <input type="range" id="slider-drone" min="0" max="100" value="45" class="styled-range">
+              </div>
+            </div>
+          </div>
+
+          <!-- Offline Calming Story Generator -->
+          <div class="story-generator-card">
+            <div class="story-header">
+              <h3>Offline Bedtime Storyteller</h3>
+              <p>Generates meditative, slow-paced bedtime journeys for decompressing code-fried brains.</p>
+            </div>
+
+            <div class="story-controls">
+              <label for="story-theme-select" class="field-label">Journey Destination:</label>
+              <div class="story-action-row">
+                <select id="story-theme-select" class="form-select">
+                  <option value="rainforest-hammock" selected>The Neon Rainforest Hammock</option>
+                  <option value="midnight-train">The Midnight Sleeper Railway</option>
+                  <option value="cosmic-sloth">The Sloth Planetarium in Orbit</option>
+                  <option value="moss-library">The Deep Ancient Moss Library</option>
+                </select>
+                <button class="btn-primary" id="btn-generate-story">
+                  <span>🌙 Read Story</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="story-output-box" id="story-output-box">
+              <div class="story-placeholder" id="story-placeholder">
+                <span class="story-emoji">📖</span>
+                <p>Click "Read Story" to generate an offline relaxing narrative.</p>
+              </div>
+              <div class="story-text-body hidden" id="story-text-body"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 6: SUBMISSION DRAFT & ARCHITECTURE -->
+    <!-- ========================================================================= -->
+    <section class="module-container" id="module-submission">
+      <div class="module-card glass-panel">
+        <div class="module-header">
+          <div class="module-header-info">
+            <span class="module-badge">Module 6 • DEV Community Ready</span>
+            <h2 class="module-title">Official Hacktoberfest Submission Draft</h2>
+            <p class="module-desc">
+              Everything formatted strictly to the official DEV challenge submission template. Click "Copy Markdown" to paste directly into your DEV post draft!
+            </p>
+          </div>
+          <div class="module-header-actions">
+            <button class="btn-primary" id="btn-copy-submission-markdown">
+              <span>📋 Copy Full Post Markdown</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="submission-viewer">
+          <div class="submission-meta-pills">
+            <span class="sub-pill">Tag: #devchallenge</span>
+            <span class="sub-pill">Tag: #hf26challenge</span>
+            <span class="sub-pill">Theme: Slow and Steady</span>
+            <span class="sub-pill">License: MIT Permissive</span>
+            <span class="sub-pill">Partner Ready: Render & Backboard</span>
+          </div>
+
+          <div class="markdown-preview-container" id="submission-post-preview">
+            <!-- Rendered in app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer" id="app-footer">
+      <div class="footer-content">
+        <div class="footer-left">
+          <span class="footer-logo">🦥 SloanDesk</span>
+          <span class="footer-text">
+            Built with pure Vanilla HTML, CSS, JavaScript & Open-Source AI.
+            Celebrating International Sloth Day for Hacktoberfest 2026.
+          </span>
+        </div>
+        <div class="footer-right">
+          <span class="footer-badge">100% Client-Side Privacy</span>
+          <span class="footer-link-group">
+            <a href="https://dev.to/sloan" target="_blank" rel="noopener">Meet Sloan on DEV</a> •
+            <a href="https://dev.to/challenges/hf26" target="_blank" rel="noopener">HF26 Challenge Hub</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
